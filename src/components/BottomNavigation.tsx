@@ -1,7 +1,9 @@
 import React, { FC } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { MaterialCommunityIcons } from "react-native-vector-icons";
+import { MaterialCommunityIcons, Feather, FontAwesome5 } from "react-native-vector-icons";
 
+
+import { theme } from '../core/theme';
 import Home from "../screens/Home";
 import TodoListScreen from "../screens/TodoList";
 import Account from "../screens/Account";
@@ -20,7 +22,7 @@ const BottomTabs: FC = () => {
           fontSize: 12,
         },
         style: {
-          backgroundColor: "#B85678",
+          backgroundColor: theme.colors.primary,
         },
       }}
     >
@@ -29,7 +31,7 @@ const BottomTabs: FC = () => {
         component={Home}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="home" color={color} size={size} />
+            <Feather name="home" color={color} size={size} />
           ),
         }}
       />
@@ -38,7 +40,7 @@ const BottomTabs: FC = () => {
         component={TodoListScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons
+            <FontAwesome5
               name="plus-circle"
               color={color}
               size={size}
