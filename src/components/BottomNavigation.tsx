@@ -1,12 +1,13 @@
 import React, { FC } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { MaterialCommunityIcons, Feather, FontAwesome5 } from "react-native-vector-icons";
+import { MaterialCommunityIcons, Entypo, Octicons } from "react-native-vector-icons";
 
 
-import { theme } from '../core/theme';
 import Home from "../screens/Home";
-import TodoListScreen from "../screens/TodoList";
+import RecipeListScreen from "../screens/RecipeListScreen";
 import Account from "../screens/Account";
+import Lab from "../screens/Lab"
+import Colors from "../constans/Colors";
 
 const Tab = createBottomTabNavigator();
 
@@ -15,14 +16,14 @@ const BottomTabs: FC = () => {
     <Tab.Navigator
       initialRouteName="Home"
       tabBarOptions={{
-        activeTintColor: "black",
-        inactiveTintColor: "white",
+        activeTintColor: Colors.white,
+        inactiveTintColor: "#ffffff50",
         showLabel: false,
         labelStyle: {
           fontSize: 12,
         },
         style: {
-          backgroundColor: theme.colors.primary,
+          backgroundColor: Colors.primary,
         },
       }}
     >
@@ -31,17 +32,30 @@ const BottomTabs: FC = () => {
         component={Home}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Feather name="home" color={color} size={size} />
+            <Octicons name="light-bulb" color={color} size={size} />
           ),
         }}
       />
       <Tab.Screen
-        name="TodoList"
-        component={TodoListScreen}
+        name="RecipeListScreen"
+        component={RecipeListScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <FontAwesome5
-              name="plus-circle"
+            <MaterialCommunityIcons
+              name="leaf"
+              color={color}
+              size={size}
+            />
+          ),
+        }}
+      />
+           <Tab.Screen
+        name="Lab"
+        component={Lab}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Entypo
+              name="lab-flask"
               color={color}
               size={size}
             />

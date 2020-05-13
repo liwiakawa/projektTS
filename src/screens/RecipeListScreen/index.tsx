@@ -3,21 +3,21 @@ import { Button, View, ScrollView, StyleSheet } from "react-native";
 
 
 import Form from "../../components/Form";
-import TodoList from "../../components/TodoList";
+import RecipeList from "../../components/RecipeList";
 
 
-const TodoListScreen = ({ navigation }) => {
+const RecipeListScreen = ({ navigation }) => {
   const [formView, setFormView] = useState<boolean>(false);
   return (
     <View style={{ flex: 1 }}>
         {formView ? (
           <Form switchView={setFormView} />
         ) : (
-          <TodoList switchView={setFormView} />
+          <RecipeList switchView={setFormView} />
         )}
 
     </View>
   );
 };
 
-export default TodoListScreen;
+export default RecipeListScreen;

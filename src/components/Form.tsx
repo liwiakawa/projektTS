@@ -3,7 +3,6 @@ import {
   TextInput,
   View,
   StyleSheet,
-  ScrollView,
   TouchableOpacity,
   Text,
 } from "react-native";
@@ -11,95 +10,130 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import { FontAwesome, MaterialIcons } from "react-native-vector-icons";
+import RNPickerSelect from "react-native-picker-select";
+import { useDispatch, useSelector } from "react-redux";
+
+
+
+
+import { IState } from "../reducers";
+import { IRecipeListReducer } from "../reducers/recipeListReducer";
 import {
-  FontAwesome,MaterialIcons
-} from "react-native-vector-icons";
-
-import { theme } from "../core/theme";
-import { useDispatch } from "react-redux";
-import { setNewElemTodoList, setNewIngredients } from "../actions/todoListActions";
-import { ISingleElementList} from "../entities/todoSingleEl";
-
+  setNewElemRecipeList,
+  setNewIngredients,
+} from "../actions/recipeListActions";
+import { IRecipe, IIngredient } from "../entities/recipe";
+import Colors from "../constans/Colors";
+import { ListItem } from "react-native-elements";
 
 
 const styles = StyleSheet.create({
   Container: {
     flex: 1,
-    backgroundColor: theme.colors.light,
+    backgroundColor: Colors.white,
   },
-  CustomTextInput: {
-    borderColor: theme.colors.primary,
+  TextInputTitle: {
+    borderColor: Colors.primary,
     textAlign: "center",
     marginTop: hp("7%"),
-    borderRadius: wp("10%"),
     height: hp("6%"),
     width: wp("90%"),
     left: hp("2.5%"),
-    borderWidth: hp("0.25%"),
+    borderBottomWidth: hp("0.25%"),
     fontSize: hp("2.5%"),
-  },
-  CustomTextInputDescription: {
-    marginTop: hp("3%"),
     borderRadius: wp("10%"),
+  },
+  TextInputDescription: {
+    marginTop: hp("3%"),
     height: hp("20%"),
     width: wp("90%"),
     left: hp("2.5%"),
-    borderColor: theme.colors.primary,
-    borderWidth: hp("0.25%"),
+    borderColor: Colors.primary,
+    borderBottomWidth: hp("0.25%"),
     textAlign: "center",
     fontSize: hp("2.5%"),
+    borderRadius: wp("10%"),
   },
-  CustomTextInputIngredients: {
-    borderColor: theme.colors.primary,
+  TextInputIngredients: {
+    borderColor: Colors.primary,
     textAlign: "center",
     marginTop: hp("3%"),
-    borderRadius: wp("10%"),
     height: hp("6%"),
     width: wp("90%"),
     left: hp("2.5%"),
-    borderWidth: hp("0.25%"),
+    borderBottomWidth: hp("0.25%"),
     fontSize: hp("2.5%"),
+    borderRadius: wp("10%"),
   },
-  AddBtn: {
-    backgroundColor: theme.colors.primary,
-    borderColor: theme.colors.light,
+  AddRecipeBtn: {
+    backgroundColor: Colors.primary,
     textAlign: "center",
     marginTop: hp("7%"),
-    borderRadius: wp("10%"),
     height: hp("6%"),
     width: wp("90%"),
     left: hp("2.5%"),
-    borderWidth: hp("0.25%"),
   },
-  TextAddBtn: {
+  TextAddRecipeBtn: {
     fontSize: hp("2.5%"),
     textAlign: "center",
-    marginTop: hp("1%"),
-    color: theme.colors.light,
+    marginTop: hp("1.5%"),
+    color: Colors.white,
   },
-  AddIngBtnIcon: {
-    fontSize: hp("4%"),
+  AddIngIcon: {
+    fontSize: wp("11%"),
     textAlign: "center",
-    marginTop: hp("3%"),
-    left: wp("40%"),
-    color: theme.colors.primary,
+    marginTop: 0,
+    color: Colors.primary,
+    left: 0,
   },
-  BackBtnIcon: {
-    fontSize: hp("4%"),
-    left: wp("3%"),
-    bottom: hp('1%'),
-    color: theme.colors.primary,
+  AddIngBox: {
+    top: hp("3%"),
+    left: wp("80%"),
+    width: hp("8%"),
+    height: hp("8%"),
+    backgroundColor: Colors.white,
+    borderRadius: 400 / 2,
   },
 });
 
-type SetNewElemTodoList = ReturnType<typeof setNewElemTodoList>;
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    fontSize: hp("2.5%"),
+    textAlign: "center",
+    borderBottomWidth: hp("0.25%"),
+    marginTop: hp("3%"),
+    left: hp("5%"),
+    height: hp("6%"),
+    width: wp("82%"),
+    borderColor: Colors.primary,
+  },
+  inputAndroid: {
+    fontSize: hp("2.5%"),
+    textAlign: "center",
+    borderBottomWidth: hp("0.25%"),
+    marginTop: hp("3%"),
+    left: hp("5%"),
+    height: hp("6%"),
+    width: wp("82%"),
+    borderColor: Colors.primary,
+  },
+});
+
+const placeholder = {
+  label: "Rekomendowane dla...",
+  value: null,
+};
+
+type SetNewElemRecipeList = ReturnType<typeof setNewElemRecipeList>;
+type SetNewIngredients = ReturnType<typeof setNewIngredients>;
 
 const Form: FC<{ switchView(formView: boolean) }> = (props) => {
   const dispatch = useDispatch();
   const [nameInput, setNameInput] = useState<string>("");
   const [descInput, setDescInput] = useState<string>("");
   const [ingInput, setIngInput] = useState<string>("");
-
+  const [selectedValue, setSelectedValue] = useState<string>("");
 
   const nameValueChange = (txt) => {
     setNameInput(txt.nativeEvent.text);
@@ -113,76 +147,106 @@ const Form: FC<{ switchView(formView: boolean) }> = (props) => {
     setIngInput(txt.nativeEvent.text);
   };
 
-  // let Ingredients = []
 
-  // const saveIng = (jp:string) =>
-  // {
-  //   Ingredients.push(jp)
-  //   console.log(jp)
-  // }
 
-  const backBtn = () => {
-    props.switchView(false);
+  const saveIng = () => {
+    dispatch<SetNewIngredients>(
+      setNewIngredients({
+        name: ingInput,
+        id: Date.now(),
+      } as IIngredient)
+    );
   };
 
-  // const saveIng = () => {
-  //   dispatch<SetNewIngredients>(
-  //     setNewIngredients({
-  //       name: ingInput,
-  //     } as Ingredient)
-  //   );
-  // };
+  const defaultIng = ''
+  const ingStan = useSelector<IState, IRecipeListReducer>(
+    (state) => state.recipeList);
 
-  const saveData = () => {
-    dispatch<SetNewElemTodoList>(
-      setNewElemTodoList({
+    const saveData = () => {
+    dispatch<SetNewElemRecipeList>(
+      setNewElemRecipeList({
+        id: Date.now(),
         name: nameInput,
+        ingredients: ingStan.ingredientList.map((elem: IIngredient, index: number)=>(
+          <Text key={index}>
+            {elem.name}{"\n"}
+        </Text>)),
         description: descInput,
-        ingredients: Ingredients
-      } as ISingleElementList)
+        skinType: selectedValue,
+        fakeIng: defaultIng,
+      } as IRecipe)
     );
     props.switchView(false);
   };
 
-
-
   return (
     <View style={styles.Container}>
-      <ScrollView>
-        <TextInput
-          style={styles.CustomTextInput}
-          value={nameInput}
-          onChange={nameValueChange}
-          placeholder="Title"
-          placeholderTextColor={theme.colors.primary}
-        ></TextInput>
-        <TextInput
-          style={styles.CustomTextInputIngredients}
-          value={ingInput}
-          // onChange={ingredientsValueChange}
-          placeholder="Ingredients"
-          placeholderTextColor={theme.colors.primary}
-        ></TextInput>
-        <TouchableOpacity  onPress={()=>{saveIng(ingInput)}}>
-          <FontAwesome style={styles.AddIngBtnIcon} name="plus-circle" />
-        </TouchableOpacity>
-        <TextInput
-          style={styles.CustomTextInputDescription}
-          value={descInput}
-          onChange={descriptionValueChange}
-          placeholder="Description"
-          placeholderTextColor={theme.colors.primary}
-        ></TextInput>
-        <TouchableOpacity style={styles.AddBtn} onPress={saveData}>
-          <Text style={styles.TextAddBtn}>Add</Text>
-        </TouchableOpacity>
-      </ScrollView>
-      <TouchableOpacity onPress={backBtn}>
-          <MaterialIcons style={styles.BackBtnIcon} name="arrow-back" />
-        </TouchableOpacity>
+      <TextInput
+        style={styles.TextInputTitle}
+        value={nameInput}
+        onChange={nameValueChange}
+        placeholder="Tytuł"
+        placeholderTextColor={Colors.primary}
+        maxLength={20}
+      ></TextInput>
+
+      <RNPickerSelect
+        style={{
+          ...pickerSelectStyles,
+          placeholder: {
+            color: Colors.primary,
+            fontSize: hp("2.5%"),
+          },
+        }}
+        placeholder={placeholder}
+        value={selectedValue}
+        onValueChange={(value) => setSelectedValue(value)}
+        items={[
+          { label: "cery mieszanej", value: "Cera mieszana" },
+          { label: "cery tłustej", value: "Cera tłusta" },
+          { label: "cery suchej", value: "Cera sucha" },
+          { label: "cery naczynkowej", value: "Cera naczynkowa" },
+          { label: "cery wrażliwej", value: "Cera wrażliwa" },
+          { label: "cery dojrzałej", value: "Cera dojrzała" },
+          { label: "cery trądzikowej", value: "Cera trądzikowa" },
+          { label: "cery alergicznej", value: "Cera alergiczna" },
+          { label: "cery normalnej", value: "Cera normalna" },
+          { label: "każdej cery", value: "Każda cera" },
+        ]}
+      />
+
+      <TextInput
+        style={styles.TextInputIngredients}
+        value={ingInput}
+        onChange={ingredientsValueChange}
+        placeholder="Składniki"
+        placeholderTextColor={Colors.primary}
+      ></TextInput>
+
+      <TouchableOpacity style={styles.AddIngBox} onPress={saveIng}>
+        <FontAwesome
+          style={styles.AddIngIcon}
+          
+          name="plus-circle"
+        />
+      </TouchableOpacity>
+      
+
+      <TextInput
+        style={styles.TextInputDescription}
+        value={descInput}
+        onChange={descriptionValueChange}
+        placeholder="Przygotowanie"
+        placeholderTextColor={Colors.primary}
+        multiline={true}
+        blurOnSubmit={true}
+      ></TextInput>
+
+      <TouchableOpacity style={styles.AddRecipeBtn} onPress={saveData}>
+        <Text style={styles.TextAddRecipeBtn}>Dodaj nowy przepis!</Text>
+      </TouchableOpacity>
     </View>
   );
 };
-
 
 export default Form;

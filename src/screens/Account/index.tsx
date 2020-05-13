@@ -6,12 +6,13 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
-import { theme } from "../../core/theme";
+import Colors from "../../constans/Colors";
+import Header from "../../components/Header"
 
 const styles = StyleSheet.create({
   Container: {
     flex: 1,
-    backgroundColor: theme.colors.secondary,
+    backgroundColor: Colors.secondary,
   },
   UserImg: {
     height: hp("50%"),
@@ -24,7 +25,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: hp("4%"),
     fontWeight: "bold",
-    color: theme.colors.light,
+    color: Colors.white,
     fontSize: hp("4%"),
   },
   UserDescription: {
@@ -44,6 +45,7 @@ const Account: FC<IAccountProps> = (props) => {
 
   return (
     <ScrollView style={styles.Container}>
+      <Header></Header>
       <Image
         style={styles.UserImg}
         source={require("../../assets/FirstUser.png")}

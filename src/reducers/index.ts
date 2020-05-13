@@ -1,11 +1,11 @@
 import { combineReducers } from "redux";
 
-import todoList, { ITodoListReducer } from "./todoListReducer";
+import recipeList, { IRecipeListReducer } from "./recipeListReducer";
 
 export default combineReducers({
-  todoList,
+  recipeList,
 });
 
 export interface IState {
-  todoList: ITodoListReducer;
+  recipeList: IRecipeListReducer;
 }
