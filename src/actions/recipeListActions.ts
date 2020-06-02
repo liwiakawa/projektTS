@@ -17,8 +17,16 @@ export const deleteElemRecipeList = (id) => ({
 
 })
 
-export const searchElemRecipeList = (cokolwiek) => ({
+export const searchElemRecipeList = (searchElem) => ({
   type: actiontypes.SEARCH_ELEM,
-  cokolwiek
+  searchElem
 
 })
+
+export const loadingRecipeList = (loadRecipes: string) => ({
+  type: actiontypes.LOADING_DB,
+  loadRecipes
+})
+
+
+

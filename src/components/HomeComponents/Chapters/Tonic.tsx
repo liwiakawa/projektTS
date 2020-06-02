@@ -16,17 +16,31 @@ import { MaterialIcons } from "react-native-vector-icons";
 import Colors from "../../../constans/Colors";
 
 const styles = StyleSheet.create({
-  Container: {
-    flex: 1,
+  LeftArrowContainer: {
+    marginLeft: 0,
+    width: wp("8%"),
   },
-  ChapterTitleBox: {
+  RightArrowContainer: {
+    left: 0,
+    width: wp("8%"),
+  },
+  LeftArrow: {
+    color: "#00000060",
+    fontSize: hp("5%"),
+    top: "40%",
+  },
+  RightArrow: {
+    color: "#00000060",
+    fontSize: hp("5%"),
+    top: "40%",
+  },
+  ChapterTitleContainer: {
     backgroundColor: Colors.tertiary,
-    position: "absolute",
     height: hp("5%"),
     width: wp("55%"),
-    marginTop: hp("45%"),
     borderTopRightRadius: hp("3%"),
     borderBottomRightRadius: hp("3%"),
+    marginTop: hp("4%"),
     shadowColor: Colors.black,
     shadowOffset: {
       width: 0,
@@ -45,27 +59,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff30",
     height: hp("39%"),
     width: wp("100%"),
-    marginTop: hp("50%"),
+    marginTop: hp("0%"),
   },
-  LeftArrowBox: {
-    marginLeft: 0,
-    width: wp("8%"),
-  },
-  RightArrowBox: {
-    left: 0,
-    width: wp("8%"),
-  },
-  LeftArrowIcon: {
-    color: "#00000060",
-    fontSize: hp("5%"),
-    top: "40%",
-  },
-  RightArrowIcon: {
-    color: "#00000060",
-    fontSize: hp("5%"),
-    top: "40%",
-  },
-  Tip: {
+  Box: {
     backgroundColor: Colors.tertiary,
     borderRadius: hp("3%"),
     height: hp("33%"),
@@ -82,7 +78,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: hp("3%"),
     borderBottomLeftRadius: hp("3%"),
   },
-  TipTitleTxt: {
+  BoxTitleTxt: {
     color: Colors.white,
     right: wp("2%"),
     top: hp("1.5%"),
@@ -92,16 +88,15 @@ const styles = StyleSheet.create({
     textAlign: "justify",
     fontSize: hp("3%"),
   },
-  TipTxt: {
+  BoxTxt: {
     color: Colors.white,
     right: wp("2%"),
     top: hp("9%"),
     width: wp("32%"),
     position: "absolute",
     overflow: "hidden",
-    textAlign: "justify",
   },
-  TipTimeTxt: {
+  BoxTimeTxt: {
     color: Colors.white,
     right: wp("2%"),
     top: hp("6%"),
@@ -110,7 +105,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     textAlign: "justify",
   },
-  TipButton: {
+  Button: {
     backgroundColor: "#797e78",
     right: wp("2%"),
     bottom: hp("2%"),
@@ -120,7 +115,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     borderRadius: hp("3%"),
   },
-  TipButtonTxt: {
+  ButtonTxt: {
     textAlign: "center",
     top: hp("0.25%"),
     fontSize: hp("2.5%"),
@@ -128,13 +123,11 @@ const styles = StyleSheet.create({
   },
 });
 
-interface ICleanProps {}
-
-const Clean: FC<ICleanProps> = (props) => {
+const Tonic: FC = () => {
   return (
-    <View style={styles.Container}>
-      <View style={styles.ChapterTitleBox}>
-        <Text style={styles.ChapterTitle}>Oczyszczanie</Text>
+    <View>
+      <View style={styles.ChapterTitleContainer}>
+        <Text style={styles.ChapterTitle}>Tonizowanie</Text>
       </View>
       <ScrollView
         horizontal={true}
@@ -142,80 +135,80 @@ const Clean: FC<ICleanProps> = (props) => {
         pagingEnabled={true}
         showsHorizontalScrollIndicator={false}
       >
-        <View style={styles.RightArrowBox}></View>
-        <View style={styles.Tip}>
+        <View style={styles.RightArrowContainer}></View>
+        <View style={styles.Box}>
           <Image
             style={styles.Img}
-            source={require("../../../assets/1.png")}
+            source={require("../../../assets/4.png")}
           ></Image>
-          <Text style={styles.TipTitleTxt}>Wstęp</Text>
-          <Text style={styles.TipTimeTxt}>3-5 min czytania</Text>
-          <Text style={styles.TipTxt}>
+          <Text style={styles.BoxTitleTxt}>Wstęp</Text>
+          <Text style={styles.BoxTimeTxt}>3-5 min czytania</Text>
+          <Text style={styles.BoxTxt}>
             Wcho­dzisz do dro­ge­rii, wi­dzisz pół­ki ugi­na­ją­ce się od mydeł,
-            żeli i toników: co wy­brać, czym się kie­ro­wać?
+            żeli, toników. Czym się kierować?
           </Text>
-          <TouchableOpacity style={styles.TipButton}>
-            <Text style={styles.TipButtonTxt}>Czytaj</Text>
+          <TouchableOpacity style={styles.Button}>
+            <Text style={styles.ButtonTxt}>Czytaj</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.RightArrowBox}>
+        <View style={styles.RightArrowContainer}>
           <MaterialIcons
-            style={styles.LeftArrowIcon}
+            style={styles.RightArrow}
             name="keyboard-arrow-right"
           ></MaterialIcons>
         </View>
-        <View style={styles.LeftArrowBox}>
+        <View style={styles.LeftArrowContainer}>
           <MaterialIcons
-            style={styles.LeftArrowIcon}
+            style={styles.LeftArrow}
             name="keyboard-arrow-left"
           ></MaterialIcons>
         </View>
-        <View style={styles.Tip}>
+        <View style={styles.Box}>
           <Image
             style={styles.Img}
-            source={require("../../../assets/2.png")}
+            source={require("../../../assets/5.png")}
           ></Image>
-          <Text style={styles.TipTitleTxt}>Wstęp</Text>
-          <Text style={styles.TipTimeTxt}>3-5 min czytania</Text>
-          <Text style={styles.TipTxt}>
+          <Text style={styles.BoxTitleTxt}>Wstęp</Text>
+          <Text style={styles.BoxTimeTxt}>3-5 min czytania</Text>
+          <Text style={styles.BoxTxt}>
             Wcho­dzisz do dro­ge­rii, wi­dzisz pół­ki ugi­na­ją­ce się od mydeł,
-            żeli i toników: co wy­brać, czym się kie­ro­wać?
+            żeli, toników. Czym się kierować?
           </Text>
-          <TouchableOpacity style={styles.TipButton}>
-            <Text style={styles.TipButtonTxt}>Czytaj</Text>
+          <TouchableOpacity style={styles.Button}>
+            <Text style={styles.ButtonTxt}>Czytaj</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.RightArrowBox}>
+        <View style={styles.RightArrowContainer}>
           <MaterialIcons
-            style={styles.RightArrowIcon}
+            style={styles.RightArrow}
             name="keyboard-arrow-right"
           ></MaterialIcons>
         </View>
-        <View style={styles.LeftArrowBox}>
+        <View style={styles.LeftArrowContainer}>
           <MaterialIcons
-            style={styles.LeftArrowIcon}
+            style={styles.LeftArrow}
             name="keyboard-arrow-left"
           ></MaterialIcons>
         </View>
-        <View style={styles.Tip}>
+        <View style={styles.Box}>
           <Image
             style={styles.Img}
-            source={require("../../../assets/3.png")}
+            source={require("../../../assets/6.png")}
           ></Image>
-          <Text style={styles.TipTitleTxt}>Wstęp</Text>
-          <Text style={styles.TipTimeTxt}>3-5 min czytania</Text>
-          <Text style={styles.TipTxt}>
+          <Text style={styles.BoxTitleTxt}>Wstęp</Text>
+          <Text style={styles.BoxTimeTxt}>3-5 min czytania</Text>
+          <Text style={styles.BoxTxt}>
             Wcho­dzisz do dro­ge­rii, wi­dzisz pół­ki ugi­na­ją­ce się od mydeł,
-            żeli i toników: co wy­brać, czym się kie­ro­wać?
+            żeli, toników. Czym się kierować?
           </Text>
-          <TouchableOpacity style={styles.TipButton}>
-            <Text style={styles.TipButtonTxt}>Czytaj</Text>
+          <TouchableOpacity style={styles.Button}>
+            <Text style={styles.ButtonTxt}>Czytaj</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.RightArrowBox}></View>
+        <View style={styles.RightArrowContainer}></View>
       </ScrollView>
     </View>
   );
 };
 
-export default Clean;
+export default Tonic;

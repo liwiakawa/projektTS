@@ -1,6 +1,5 @@
 export interface  IIngredient {
   name: string;
-  id: number;
 }
 
 export interface IRecipe {
@@ -9,5 +8,5 @@ export interface IRecipe {
   skinType: string;
   description: string;
   ingredients: IIngredient[];
-  fakeIng:string;
+  load:string;
 }

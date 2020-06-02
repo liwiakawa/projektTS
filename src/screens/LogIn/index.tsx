@@ -14,25 +14,24 @@ import {
 
 import Colors from "../../constans/Colors";
 import Header from "../../components/Header";
-import CustomNavigation from "../../navigation/CustomNavigation";
 
 const styles = StyleSheet.create({
   Container: {
     flex: 1,
-    backgroundColor: Colors.secondary,
+    backgroundColor: Colors.white,
   },
   UserImg: {
-    height: hp("50%"),
-    width: wp("50%"),
-    marginTop: hp("7%"),
-    left: wp("25%"),
-    borderRadius: hp("20%"),
+    height: hp("40%"),
+    width: wp("40%"),
+    resizeMode: "contain",
+    left: wp("30%"),
+    top: hp("20%"),
   },
   Title: {
-    color: Colors.secondary,
     textAlign: "center",
     marginTop: hp("1%"),
     fontWeight: "bold",
+    color: Colors.primary,
     fontSize: hp("4%"),
   },
   Button: {
@@ -40,7 +39,7 @@ const styles = StyleSheet.create({
     width: wp("50%"),
     height: hp("7%"),
     left: wp("25%"),
-    marginTop: hp("10%"),
+    marginTop: hp("20%"),
     borderRadius: wp("25%"),
     shadowColor: Colors.black,
     shadowOffset: {
@@ -49,17 +48,17 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.1,
     shadowRadius: 9,
-    elevation: 10,
-  },
+    elevation: 15,
+  }
 });
 
-interface IAccountProps {}
+interface ILogInProps {}
 
-const Account: FC<IAccountProps> = (props) => {
+const LogIn: FC<ILogInProps> = (props) => {
   const nav = useNavigation();
 
-  const goToLogIn = () => {
-    nav.navigate("LogIn");
+  const goToHome = () => {
+    nav.navigate("Home");
   };
 
   return (
@@ -67,14 +66,13 @@ const Account: FC<IAccountProps> = (props) => {
         <Header></Header>
         <Image
           style={styles.UserImg}
-          source={require("../../assets/FirstUser.png")}
+          source={require("../../assets/icon.png")}
         ></Image>
-        <TouchableOpacity style={styles.Button} onPress={goToLogIn}>
-          <Text style={styles.Title}>LogOut</Text>
+        <TouchableOpacity style={styles.Button} onPress={goToHome}>
+          <Text style={styles.Title}>LogIn</Text>
         </TouchableOpacity>
-      <CustomNavigation />
     </View>
   );
 };
 
-export default Account;
+export default LogIn;

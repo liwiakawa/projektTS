@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 
-import BottomTabs from "./components/BottomNavigation";
+import BottomTabs from "./navigation/BottomNavigation";
 
 interface IMainProps {}
 

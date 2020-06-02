@@ -10,22 +10,19 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { FontAwesome, MaterialIcons } from "react-native-vector-icons";
+import { FontAwesome, MaterialCommunityIcons } from "react-native-vector-icons";
 import RNPickerSelect from "react-native-picker-select";
 import { useDispatch, useSelector } from "react-redux";
 
-
-
-
-import { IState } from "../reducers";
-import { IRecipeListReducer } from "../reducers/recipeListReducer";
+import { db } from "../../constans/Config";
+import { IState } from "../../reducers";
+import { IRecipeListReducer } from "../../reducers/recipeListReducer";
 import {
   setNewElemRecipeList,
   setNewIngredients,
-} from "../actions/recipeListActions";
-import { IRecipe, IIngredient } from "../entities/recipe";
-import Colors from "../constans/Colors";
-import { ListItem } from "react-native-elements";
+} from "../../actions/recipeListActions";
+import { IRecipe, IIngredient } from "../../entities/recipe";
+import Colors from "../../constans/Colors";
 
 
 const styles = StyleSheet.create({
@@ -147,35 +144,51 @@ const Form: FC<{ switchView(formView: boolean) }> = (props) => {
     setIngInput(txt.nativeEvent.text);
   };
 
-
-
+  
   const saveIng = () => {
     dispatch<SetNewIngredients>(
       setNewIngredients({
         name: ingInput,
-        id: Date.now(),
       } as IIngredient)
     );
+    console.log(ingStan.ingredientList)
+
+
   };
 
-  const defaultIng = ''
   const ingStan = useSelector<IState, IRecipeListReducer>(
     (state) => state.recipeList);
+
+  let date = Date.now()
+
+    const saveDataToDB = () => {
+      db.ref("recipes").push({
+        id: date,
+        name: nameInput,
+        ingredients: ingStan.ingredientList,
+        description: descInput,
+        skinType: selectedValue,
+        load: "Entry",
+      })
+    };
 
     const saveData = () => {
     dispatch<SetNewElemRecipeList>(
       setNewElemRecipeList({
-        id: Date.now(),
+        id: date,
         name: nameInput,
         ingredients: ingStan.ingredientList.map((elem: IIngredient, index: number)=>(
-          <Text key={index}>
-            {elem.name}{"\n"}
-        </Text>)),
+           <Text key={index}><MaterialCommunityIcons
+           name="leaf"
+           />
+{elem.name}{"\n"}
+           </Text> )),
         description: descInput,
         skinType: selectedValue,
-        fakeIng: defaultIng,
+        load: "Entry",
       } as IRecipe)
     );
+    saveDataToDB();
     props.switchView(false);
   };
 

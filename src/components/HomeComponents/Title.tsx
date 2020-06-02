@@ -59,9 +59,7 @@ const styles = StyleSheet.create({
   },
 });
 
-interface ITitleProps {}
-
-const Title: FC<ITitleProps> = (props) => {
+const Title: FC = () => {
   return (
     <View style={styles.Container}>
       <View style={styles.LightBulbBox}>
