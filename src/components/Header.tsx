@@ -1,8 +1,5 @@
 import React, { FC } from "react";
-import {
-  View,
-  StyleSheet,
-} from "react-native";
+import { View, StyleSheet } from "react-native";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -15,14 +12,8 @@ const styles = StyleSheet.create({
   },
 });
 
-interface IHeaderProps {}
-
-const Header: FC<IHeaderProps> = (props) => {
-
-  return (
-    <View style={styles.container}>
-    </View>
-  );
+const Header: FC = () => {
+  return <View style={styles.container}></View>;
 };
 
 export default Header;

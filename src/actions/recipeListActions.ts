@@ -28,5 +28,9 @@ export const loadingRecipeList = (loadRecipes: string) => ({
   loadRecipes
 })
 
+export const cleanArray = (cleaner: string) => ({
+  type: actiontypes.CLEAN_ARRAY,
+  cleaner
+})
 
 

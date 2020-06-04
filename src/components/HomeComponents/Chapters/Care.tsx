@@ -41,14 +41,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: hp("3%"),
     borderBottomRightRadius: hp("3%"),
     marginTop: hp("4%"),
-    shadowColor: Colors.black,
-    shadowOffset: {
-      width: 0,
-      height: 12,
-    },
-    shadowOpacity: 0.58,
-    shadowRadius: 16.0,
-    elevation: 24,
   },
   ChapterTitle: {
     color: Colors.white,
@@ -95,7 +87,7 @@ const styles = StyleSheet.create({
     width: wp("32%"),
     position: "absolute",
     overflow: "hidden",
-    textAlign: "left"
+    textAlign: "left",
   },
   BoxTimeTxt: {
     color: Colors.white,
@@ -123,7 +115,6 @@ const styles = StyleSheet.create({
     color: Colors.white,
   },
 });
-
 
 const Care: FC = () => {
   return (

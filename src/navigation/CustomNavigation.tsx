@@ -1,11 +1,9 @@
 import React, { FC } from "react";
 import {
-  Image,
-  ScrollView,
   StyleSheet,
   TouchableOpacity,
   View,
-  Text
+  Text,
 } from "react-native";
 import {
   widthPercentageToDP as wp,
@@ -25,7 +23,7 @@ import { IIngredient } from "../entities/recipe";
 const styles = StyleSheet.create({
   BottomNavigation: {
     position: "absolute",
-    top: hp("93%"),
+    bottom: 0,
     width: wp("100%"),
     height: wp("13%"),
     backgroundColor: Colors.primary,
@@ -91,34 +89,35 @@ const CustomNavigation: FC<ICustomNavigationProps> = (props) => {
 
   const Loading = () => {
     ref
-    .once("value", (snapshot) => {
-      const recipes = snapshot.val() || [];
-      const recipesAmount = snapshot.numChildren();
-      const keys = Object.keys(recipes);
-      keys.forEach((key) => {
-        if (recipeListState.recipeList.length !== recipesAmount) {
-          recipeListState.recipeList.push({
-            id: recipes[key].id,
-            name: recipes[key].name,
-            ingredients: recipes[key].ingredients.map((elem: IIngredient, index:number)=>(
-            <Text key={index}><MaterialCommunityIcons
-            name="leaf"
-            />{elem.name}{"\n"}</Text>)
-            ),
-            description: recipes[key].description,
-            skinType: recipes[key].skinType,
-            load: "Entry",
-          });
-        }
-        // recipes[key].ingredients.map((abc, index:number)=>{
-        //       <Text key={index}>{abc.name}</Text>
-        //       })
-      });
-    })
-      .then(Navigatione);
+      .once("value", (snapshot) => {
+        const recipes = snapshot.val() || [];
+        const numberOfRecipes = snapshot.numChildren();
+        const keys = Object.keys(recipes);
+        keys.forEach((key) => {
+          if (recipeListState.recipeList.length !== numberOfRecipes) {
+            recipeListState.recipeList.push({
+              id: recipes[key].id,
+              name: recipes[key].name,
+              ingredients: recipes[key].ingredients.map(
+                (elem: IIngredient, index: number) => (
+                  <Text key={index}>
+                    <MaterialCommunityIcons name="leaf" />
+                    {elem.name}
+                    {"\n"}
+                  </Text>
+                )
+              ),
+              description: recipes[key].description,
+              skinType: recipes[key].skinType,
+              load: "Entry",
+            });
+          }
+        });
+      })
+      .then(goToRecipeListScreen);
   };
 
-  const Navigatione = () => {
+  const goToRecipeListScreen = () => {
     const entry = "Entry";
     dispatch<LoadingRecipeList>(loadingRecipeList(entry));
     nav.navigate("RecipeListScreen");
@@ -156,10 +155,3 @@ const CustomNavigation: FC<ICustomNavigationProps> = (props) => {
 };
 
 export default CustomNavigation;
-
-
-// db.ref("recipes/"+key+"/ingredients").once("value", (snapshot) => {
-//   const recipess = snapshot.val() || [];
-//   const recipesAmountt = snapshot.numChildren()
-//   const keyss = Object.keys(recipess);
-// keyss.map

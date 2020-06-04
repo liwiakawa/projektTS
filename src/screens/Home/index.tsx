@@ -32,13 +32,13 @@ const Home: FC<IHomeProps> = (props) => {
           style={styles.Background}
           source={require("../../assets/forest.png")}
         ></Image>
-        <Title></Title>
-        <Clean></Clean>
-        <Tonic></Tonic>
-        <Care></Care>
-        <Materials></Materials>
-        <Routin></Routin>
-        <Mits></Mits>
+        <Title />
+        <Clean />
+        <Tonic />
+        <Care />
+        <Materials />
+        <Routin />
+        <Mits />
       </ScrollView>
       <CustomNavigation />
     </View>

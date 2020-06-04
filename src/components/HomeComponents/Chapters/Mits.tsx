@@ -41,14 +41,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: hp("3%"),
     borderBottomRightRadius: hp("3%"),
     marginTop: hp("4%"),
-    shadowColor: Colors.black,
-    shadowOffset: {
-      width: 0,
-      height: 12,
-    },
-    shadowOpacity: 0.58,
-    shadowRadius: 16.0,
-    elevation: 24,
   },
   ChapterTitle: {
     color: Colors.white,

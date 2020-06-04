@@ -31,24 +31,16 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: hp("1%"),
     fontWeight: "bold",
-    color: Colors.primary,
+    color: Colors.white,
     fontSize: hp("4%"),
   },
   Button: {
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.primary,
     width: wp("50%"),
     height: hp("7%"),
     left: wp("25%"),
     marginTop: hp("20%"),
     borderRadius: wp("25%"),
-    shadowColor: Colors.black,
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 9,
-    elevation: 15,
   }
 });
 

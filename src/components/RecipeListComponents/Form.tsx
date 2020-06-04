@@ -24,7 +24,6 @@ import {
 import { IRecipe, IIngredient } from "../../entities/recipe";
 import Colors from "../../constans/Colors";
 
-
 const styles = StyleSheet.create({
   Container: {
     flex: 1,
@@ -144,45 +143,45 @@ const Form: FC<{ switchView(formView: boolean) }> = (props) => {
     setIngInput(txt.nativeEvent.text);
   };
 
-  
   const saveIng = () => {
     dispatch<SetNewIngredients>(
       setNewIngredients({
         name: ingInput,
       } as IIngredient)
     );
-    console.log(ingStan.ingredientList)
-
-
   };
 
   const ingStan = useSelector<IState, IRecipeListReducer>(
-    (state) => state.recipeList);
+    (state) => state.recipeList
+  );
 
-  let date = Date.now()
+  let date = Date.now();
 
-    const saveDataToDB = () => {
-      db.ref("recipes").push({
-        id: date,
-        name: nameInput,
-        ingredients: ingStan.ingredientList,
-        description: descInput,
-        skinType: selectedValue,
-        load: "Entry",
-      })
-    };
+  const saveDataToDB = () => {
+    db.ref("recipes").push({
+      id: date,
+      name: nameInput,
+      ingredients: ingStan.ingredientList,
+      description: descInput,
+      skinType: selectedValue,
+      load: "Entry",
+    });
+  };
 
-    const saveData = () => {
+  const saveData = () => {
     dispatch<SetNewElemRecipeList>(
       setNewElemRecipeList({
         id: date,
         name: nameInput,
-        ingredients: ingStan.ingredientList.map((elem: IIngredient, index: number)=>(
-           <Text key={index}><MaterialCommunityIcons
-           name="leaf"
-           />
-{elem.name}{"\n"}
-           </Text> )),
+        ingredients: ingStan.ingredientList.map(
+          (elem: IIngredient, index: number) => (
+            <Text key={index}>
+              <MaterialCommunityIcons name="leaf" />
+              {elem.name}
+              {"\n"}
+            </Text>
+          )
+        ),
         description: descInput,
         skinType: selectedValue,
         load: "Entry",
@@ -237,13 +236,8 @@ const Form: FC<{ switchView(formView: boolean) }> = (props) => {
       ></TextInput>
 
       <TouchableOpacity style={styles.AddIngBox} onPress={saveIng}>
-        <FontAwesome
-          style={styles.AddIngIcon}
-          
-          name="plus-circle"
-        />
+        <FontAwesome style={styles.AddIngIcon} name="plus-circle" />
       </TouchableOpacity>
-      
 
       <TextInput
         style={styles.TextInputDescription}

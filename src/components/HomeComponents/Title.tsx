@@ -1,9 +1,5 @@
 import React, { FC } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-} from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -25,14 +21,6 @@ const styles = StyleSheet.create({
     width: wp("84%"),
     left: wp("8%"),
     fontWeight: "bold",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 12,
-    },
-    shadowOpacity: 1,
-    shadowRadius: 16.0,
-    elevation: 24,
   },
   LightBulbBox: {
     backgroundColor: Colors.tertiary,
@@ -69,7 +57,7 @@ const Title: FC = () => {
         Zostań specjalistą od pielęgnacji domowej. Jak dbać o skórę w tym
         trudnym czasie?
       </Text>
-      </View>
+    </View>
   );
 };
 

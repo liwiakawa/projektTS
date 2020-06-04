@@ -26,6 +26,7 @@ import { IRecipe, IIngredient } from "../../entities/recipe";
 import {
   deleteElemRecipeList,
   searchElemRecipeList,
+  cleanArray,
 } from "../../actions/recipeListActions";
 import Header from "../../components/Header";
 import Colors from "../../constans/Colors";
@@ -73,7 +74,6 @@ const styles = StyleSheet.create({
   SearchBarContainer: {
     height: hp("8%"),
     width: wp("100%"),
-    top: 0,
     backgroundColor: Colors.white,
     borderBottomColor: Colors.tertiary,
     borderBottomWidth: wp("0.25%"),
@@ -92,25 +92,17 @@ const styles = StyleSheet.create({
   AddBtnBox: {
     right: wp("2%"),
     position: "absolute",
-    top: hp("83%"),
-    width: wp("15%"),
-    height: wp("15%"),
+    bottom: hp("9%"),
+    width: wp("12%"),
+    height: wp("12%"),
     backgroundColor: Colors.white,
     borderColor: Colors.primary,
     borderRadius: 400 / 2,
     borderWidth: wp("0.25%"),
-    shadowColor: Colors.black,
-    shadowOffset: {
-      width: 0,
-      height: 6,
-    },
-    shadowOpacity: 0.39,
-    shadowRadius: 8.3,
-    elevation: 13,
   },
   AddBtnIcon: {
     top: wp("1%"),
-    fontSize: wp("12%"),
+    fontSize: wp("10%"),
     textAlign: "center",
     color: Colors.primary,
   },
@@ -129,9 +121,9 @@ const styles = StyleSheet.create({
     right: "10%",
   },
   SingleElList: {
-    minHeight: hp("75%"),
+    minHeight: hp("55%"),
     width: wp("90%"),
-    marginTop: hp("3%"),
+    marginTop: hp("2%"),
     left: hp("2.5%"),
     textAlign: "center",
     backgroundColor: "#b1b8b050",
@@ -184,14 +176,14 @@ const styles = StyleSheet.create({
     width: wp("78%"),
     top: hp("3%"),
     left: wp("5%"),
-    minHeight: hp("5%"),
+    minHeight: hp("4%"),
   },
   Ingredientstxt: {
-    fontSize: hp("3%"),
+    fontSize: hp("2.5%"),
     color: "#007a77",
   },
-  DescriptionBox:{
-    marginTop: hp("5%"),
+  DescriptionBox: {
+    marginTop: hp("1%"),
     marginLeft: wp("5%"),
     width: wp("78%"),
   },
@@ -201,6 +193,7 @@ const styles = StyleSheet.create({
   },
 });
 
+type CleanArray = ReturnType<typeof cleanArray>;
 type SearchNewElemRecipeList = ReturnType<typeof searchElemRecipeList>;
 type DelNewElemRecipeList = ReturnType<typeof deleteElemRecipeList>;
 type LoadingRecipeList = ReturnType<typeof loadingRecipeList>;
@@ -218,23 +211,77 @@ const RecipeList: FC<{ switchView(formView: boolean) }> = (props) => {
 
   const goToForm = () => {
     props.switchView(true);
-    console.log(recipeListState.recipeList);
   };
 
   const searchRecipe = (searchElem: string) => {
-    console.log(nameInput);
     dispatch<SearchNewElemRecipeList>(searchElemRecipeList(searchElem));
   };
 
   const deleteRecipe = (id: number) => {
+    ref
+    .on("value", (snapshot) => {
+      const recipes = snapshot.val() || [];
+      const keys = Object.keys(recipes);
+      keys.forEach((key) => {
+        if (recipes[key].id === id) {
+          db.ref("recipes/"+key).remove();
+        }
+      });
+    })
     dispatch<DelNewElemRecipeList>(deleteElemRecipeList(id));
   };
+
+  const cleanRecipes = () => {
+    const entry = "Entry";
+    dispatch<CleanArray>(cleanArray(entry));
+  }
+
+  const ref = db.ref("recipes");
+   const Loading = () => {
+     cleanRecipes()
+    ref
+      .once("value", (snapshot) => {
+        const recipes = snapshot.val() || [];
+        const numberOfRecipes = snapshot.numChildren();
+        const keys = Object.keys(recipes);
+        
+        keys.forEach((key) => {
+          if (recipeListState.recipeList.length === numberOfRecipes) {
+            console.log("druga ");
+          } else {
+            recipeListState.recipeList.push({
+              id: recipes[key].id,
+              name: recipes[key].name,
+              ingredients: recipes[key].ingredients.map(
+                (elem: IIngredient, index: number) => (
+                  <Text key={index}>
+                    <MaterialCommunityIcons name="leaf" />
+                    {elem.name}
+                    {"\n"}
+                  </Text>
+                )
+              ),
+              description: recipes[key].description,
+              skinType: recipes[key].skinType,
+              load: "Entry",
+            });
+          }
+        });
+      })
+      .then(addEntry)
+  };
+
+  const addEntry = () => {
+    const entry = "Entry";
+    dispatch<LoadingRecipeList>(loadingRecipeList(entry));
+    console.log("3")
+  };
+
 
   return (
     <View style={styles.container}>
       <Header></Header>
       <View style={styles.SearchBarContainer}>
-        
         <TextInput
           style={styles.SearchBar}
           value={nameInput}
@@ -242,7 +289,6 @@ const RecipeList: FC<{ switchView(formView: boolean) }> = (props) => {
           placeholder="Znajdź przepis..."
           placeholderTextColor={Colors.primary}
         ></TextInput>
-
         <TouchableOpacity
           style={styles.SearchIconContainer}
           onPress={() => {
@@ -251,10 +297,7 @@ const RecipeList: FC<{ switchView(formView: boolean) }> = (props) => {
         >
           <AntDesign style={styles.SearchIcon} name="search1"></AntDesign>
         </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.DeleteSearchIconContainer}
-        >
+        <TouchableOpacity style={styles.DeleteSearchIconContainer} onPress={Loading}>
           <FontAwesome style={styles.DeleteSearchIcon} name="times" />
         </TouchableOpacity>
       </View>
@@ -262,17 +305,20 @@ const RecipeList: FC<{ switchView(formView: boolean) }> = (props) => {
         {recipeListState.recipeList.map((elem: IRecipe, index: number) => (
           <View style={styles.SingleElList} key={index}>
             <View style={styles.Titlebox}>
-              <TextInput style={styles.Titletxt} maxLength={20} >{elem.name}</TextInput>
+              <TextInput style={styles.Titletxt} maxLength={20}>
+                {elem.name}
+              </TextInput>
             </View>
             <View style={styles.SkinTypeBox}>
               <Text style={styles.SkinTypetxt}>{elem.skinType}</Text>
             </View>
             <View style={styles.IngredientsBox}>
-            
               <Text style={styles.Ingredientstxt}>{elem.ingredients}</Text>
             </View>
             <View style={styles.DescriptionBox}>
-            <TextInput style={styles.Descriptiontxt} multiline={true} >{elem.description}</TextInput>
+              <Text style={styles.Descriptiontxt}>
+                {elem.description}
+              </Text>
             </View>
             <TouchableOpacity
               style={styles.DeleteBtnBox}
@@ -285,7 +331,7 @@ const RecipeList: FC<{ switchView(formView: boolean) }> = (props) => {
       </ScrollView>
       <View style={styles.AddBtnBox}>
         <MaterialCommunityIcons
-          name="leaf"
+          name="plus"
           style={styles.AddBtnIcon}
           onPress={goToForm}
         />
@@ -296,4 +342,3 @@ const RecipeList: FC<{ switchView(formView: boolean) }> = (props) => {
 };
 
 export default RecipeList;
-

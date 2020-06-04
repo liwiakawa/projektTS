@@ -21,13 +21,15 @@ export default (state = defaultState(), action: any): IRecipeListReducer => {
       };
     }
 
-    case actionTypes.DEL_ELEM:
+    case actionTypes.DEL_ELEM: {
       return {
         ...state,
         recipeList: [
           ...state.recipeList.filter((elem) => elem.id != action.id),
         ],
       };
+    }
+  
 
     case actionTypes.SET_NEW_ING: {
       return {
@@ -36,18 +38,33 @@ export default (state = defaultState(), action: any): IRecipeListReducer => {
       };
     };
 
-    case actionTypes.SEARCH_ELEM:
+    case actionTypes.SEARCH_ELEM: {
       return {
         ...state,
         recipeList: [
           ...state.recipeList.filter((elem) => elem.name === action.searchElem),
         ],
       };
+    }
+     
 
       case actionTypes.LOADING_DB: {
         return {
           ...state,
-          ...state.recipeList.filter((elem) => elem.load === action.loadRecipes )
+          recipeList: [
+            ...state.recipeList.filter((elem) => elem.load === action.loadRecipes )
+          ]
+      }
+      }
+      
+
+      case actionTypes.CLEAN_ARRAY: {
+        return {
+          ...state,
+          recipeList: [
+            ...state.recipeList.filter((elem) => elem.load !== action.cleaner)
+          ]
+
         }
       }
     
